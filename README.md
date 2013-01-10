@@ -6,14 +6,17 @@ Tool to help locate (from a Puppet client) where a resource is defined and what 
 Usage
 =====
 
-All you need to know is the 'title' of the resource you want to find. For example:
+All you need to know is the 'title' of the resource you want to find. Output includes the place the resource
+is defined in your manifests, and the resource in manifest form. 
+
+For example:
 
     # pfind httpd
     =====================================================================================
     Items in Puppet catalog matching 'httpd':
     =====================================================================================
       Type:          Service
-      Manifest file: /puppet/etc/modules/httpd_inttech_rhel/manifests/init.pp
+      Manifest file: /puppet/etc/modules/httpd_module/manifests/init.pp
       Line:          211
       Manifest code:
        service { 'httpd':
@@ -24,7 +27,7 @@ All you need to know is the 'title' of the resource you want to find. For exampl
        }
     -------------------------------------------------------------------------------------
       Type:          Exec
-      Manifest file: /puppet/etc/modules/httpd_inttech_rhel/manifests/init.pp
+      Manifest file: /puppet/etc/modules/httpd_module/manifests/init.pp
       Line:          276
       Manifest code:
        exec { 'httpd':
@@ -36,10 +39,35 @@ All you need to know is the 'title' of the resource you want to find. For exampl
        }
     -------------------------------------------------------------------------------------
       Type:          Package
-      Manifest file: /puppet/etc/modules/httpd_inttech_rhel/manifests/init.pp
+      Manifest file: /puppet/etc/modules/httpd_module/manifests/init.pp
       Line:          126
       Manifest code:
        package { 'httpd':
          ensure => 'installed',
        }
     -------------------------------------------------------------------------------------
+
+pfind located a Service, an Exec, and a Package with the title 'httpd'. The title for a File resource
+is the full path, so you can locate where a file is defined like so:
+
+    # pfind /etc/motd
+    =====================================================================================
+    Items in Puppet catalog matching '/etc/motd':
+    =====================================================================================
+      Type:          File
+      Manifest file: /puppet/etc/modules/motd_module/manifests/init.pp
+      Line:          26
+      Manifest code:
+       file { '/etc/motd':
+         ensure  => 'present',
+         content => '
+       ------------------------------------------------------------------------
+       ---                This machine is managed by Puppet                 ---
+       ------------------------------------------------------------------------
+    
+       ',
+         group   => 'root',
+         mode    => '644',
+         owner   => 'root',
+       }
+    -----------------------------------------------------------------------------------
