@@ -49,9 +49,7 @@ things.each do |thing|
       resource = catalog.resource(type,name)
       puts "  Type:          #{resource.type}"
       # If resource.file or resource.line are nil, then they were added to the catalog by
-      # a Ruby function executed by Puppet. You'll see this if you inspect a user, since they
-      # are added to the catalog by the create_users.rb function called from the
-      # create_users_noarch module.
+      # a Ruby function executed by Puppet.
       puts "  Manifest file: #{resource.file || 'inside a Ruby function'}"
       puts "  Line:          #{resource.line || 'inside a Ruby function'}"
       puts "  Manifest code:"
