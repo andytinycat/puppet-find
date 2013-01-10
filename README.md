@@ -71,3 +71,9 @@ is the full path, so you can locate where a file is defined like so:
          owner   => 'root',
        }
     -----------------------------------------------------------------------------------
+
+How it works
+============
+
+Puppet runs leave a serialized form of the catalog on disk after the run completes successfully. This script
+deserializes the catalog and searches it for resources with the supplied title.
