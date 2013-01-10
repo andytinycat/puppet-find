@@ -1,4 +1,4 @@
-#!/usr/bin/ruby
+#!/usr/bin/env ruby
 
 require 'yaml'
 require 'puppet'
@@ -8,9 +8,14 @@ require 'facter'
 # for the resource of a specific file, then prints the manifest file
 # and line that the resource was defined on.
 
+# Read the Puppet config
+Puppet.clear
+Puppet.parse_config
+clientyamldir = Puppet[:clientyamldir]
+
 # Open the catalog file
 hostname = `hostname`.chomp
-catalog_file = "/var/lib/puppet/client_yaml/catalog/#{hostname}.yaml"
+catalog_file = "#{clientyamldir}/catalog/#{hostname}.yaml"
 lc = File.open(catalog_file)
 
 if ARGV.length < 1
